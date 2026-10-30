@@ -1,0 +1,22 @@
+Add Pet (name, species)
+      │
+      ▼
+ TaskSuggester  ──►  Gemini LLM call (system prompt + few-shot + JSON schema)
+      │                     │ on failure/timeout/bad JSON
+      │                     ▼
+      │              Fallback rules table (cat/dog/other defaults)
+      ▼
+ Validator/guardrails
+   · schema check (title, duration 1–240, priority in low/med/high, time)
+   · species sanity (no "Scoop Litter Box" for a dog)
+   · cap at 3 suggestions, dedupe against existing tasks
+      ▼
+ session_state.suggestions[pet] → card tiles
+      │
+ ┌────┼──────────┐
+Accept Edit      Drop
+ │      │         │
+ │   inline form  remove card
+ │   (title+time)  (log as rejected)
+ ▼      ▼
+ PetCareTask ──► existing conflict check ──► session_state.tasks
