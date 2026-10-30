@@ -1,22 +1,22 @@
-Add Pet (name, species)
-      │
-      ▼
- TaskSuggester  ──►  Gemini LLM call (system prompt + few-shot + JSON schema)
-      │                     │ on failure/timeout/bad JSON
-      │                     ▼
-      │              Fallback rules table (cat/dog/other defaults)
-      ▼
- Validator/guardrails
-   · schema check (title, duration 1–240, priority in low/med/high, time)
-   · species sanity (no "Scoop Litter Box" for a dog)
-   · cap at 3 suggestions, dedupe against existing tasks
-      ▼
- session_state.suggestions[pet] → card tiles
-      │
- ┌────┼──────────┐
-Accept Edit      Drop
- │      │         │
- │   inline form  remove card
- │   (title+time)  (log as rejected)
- ▼      ▼
- PetCareTask ──► existing conflict check ──► session_state.tasks
+flowchart TD
+    A["Add Pet (name, species)"] --> B[TaskSuggester]
+    B --> C["Gemini LLM call<br/>(system prompt + few-shot + JSON schema)"]
+    C -->|success| D
+    C -->|"failure / timeout / bad JSON"| F["Fallback rules table<br/>(cat / dog / other defaults)"]
+    F --> D
+
+    D["Validator / guardrails<br/>- schema check: title, duration 1-240, priority low/med/high, time<br/>- species sanity: no 'Scoop Litter Box' for a dog<br/>- cap at 3 suggestions, dedupe against existing tasks"]
+    D --> E["session_state.suggestions[pet]<br/>rendered as card tiles"]
+
+    E --> ACC[Accept]
+    E --> EDT[Edit]
+    E --> DRP[Drop]
+
+    EDT --> FORM["Inline form<br/>(title + time)"]
+    FORM --> TASK
+    ACC --> TASK["PetCareTask"]
+    DRP --> REM["Remove card<br/>(log as rejected)"]
+
+    TASK --> CONF{"Existing conflict check"}
+    CONF -->|no conflict| ST["session_state.tasks"]
+    CONF -->|conflict| ERR["Show error, task not added"]
