@@ -66,7 +66,11 @@ if "owner" in st.session_state:
 
 
 pet_name = st.text_input("Pet name", placeholder="Enter your pet's name")
-species = st.selectbox("Species", ["dog", "cat", "other"])
+species_choice = st.selectbox("Species", ["dog", "cat", "other"])
+if species_choice == "other":
+    species = st.text_input("Enter species", placeholder="e.g. rabbit, fish").strip().lower()
+else:
+    species = species_choice
 
 if "pets" not in st.session_state:
     st.session_state.pets = []
@@ -140,7 +144,7 @@ def on_save_edit(pet_name, sug):
 
 
 if st.button("Add New Pet"):
-    if pet_name.strip() and "owner" in st.session_state:
+    if pet_name.strip() and species and "owner" in st.session_state:
         new_pet = Pet(pet_name.strip(), species)
         st.session_state.pets.append(new_pet)
         with st.spinner("Suggesting daily tasks..."):
@@ -148,7 +152,7 @@ if st.button("Add New Pet"):
         st.session_state.suggestions[new_pet.get_name()] = sugs
         st.session_state.suggestion_source[new_pet.get_name()] = source
     else:
-        st.warning("Please enter a name first.")
+        st.warning("Please enter a pet name and species first.")
 
 for p in st.session_state.pets:
     st.success(f"Pet: {p.get_name()} ({p.get_type()})")
