@@ -19,4 +19,4 @@
 
 **What Worked Well**: Claude gives great feedback on my plans and helping expand it. It helps reorganizes my thoughts and can tailor to my vision through back and forth discussion. 
 
-**Where I Stepped In**: Despite Claude's generated test file for the new ai suggester feature, the test passed with flying colors. I had to step in to test the site manually and found several bugs that Claude missed. This was an good habit of double checking an LLM's work since they may be biased to test on what they know vs anticipate how users may use it differently. 
+**Where I Stepped In**: Despite Claude's generated test file for the new ai suggester feature, the test passed with flying colors. I had to step in to test the site manually and found several bugs that Claude missed. This was an good habit of double checking an LLM's work since it may be biased to test on what it knows vs anticipate how users may use it differently. 
