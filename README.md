@@ -34,10 +34,47 @@ source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
+### Running
+- Install dependencies: pip install -r requirements.txt
+- Open the terminal and write streamlit run app.py
+- Run tests: pytest test_suggester.py -v
+
 ## Sample Interactions:
 
+Case #1:
+User, Kiki, adds in their pet cat "Jiji" and gets 3 automatically suggested pet care tasks for him. Kiki accepts the first task "Feed Jiji" while Kiki modifies the time duration of the second task, "Brush Jiji". The last task Kiki rejects because it doesn't apply to Jiji's case.
+
+Case #2
+User, Katie, adds in her two dogs, Max and Duke. Given 3 suggested tasks, she reads through the first set of task for Max (accepting and modifying a few) before moving to the tasks generated for Duke. She accepts all three and adds her accepted task into her schedule.
+
 ## Design Decisions:
+**Why AI-suggested tasks:** Suggestions make it faster to build a schedule without entering every task manually. Users can accept a task instantly, edit it, or drop it, so they stay in control.
+
+**Why an LLM instead of a fixed template:** A static species-to-tasks list would be faster and free, but an LLM tailors tasks to the pet's name and species (e.g., "Scooping Jiji's Litter Box").
+
+**Trade-offs**:
+- Irrelevant suggestions cost the user time to discard. The validation step reduces this but can't eliminate it.
+- Depends on the Gemini API, so there is added latency, possible rate limits and a required API key.
+- Output can vary between runs for the same pet.
 
 ## Testing Summary:
+12/12 test case passed from test_suggester.py
+
+3/6 passed Human Eval Test of the Website
+
+**Missed from Human Eval:**
+- Robustness: Suppose to only show the suggested task related to the recently added pet however FAILs because it's not set to clear our suggested task (dependent on the user to drop them manually)
+- Times still overlap (not considering duration)
+- Bad Species Input case test:
+    When the species was a non animal like "Fashionista", it still gave out 3 tasks that were not relevant at all to the species
+
+**What could be improved:**
+- More robust design: In the case a user doesn't discard the suggested task, when they add a new pet, the previous suggested tasks still persist which clutters the UI.
+
+- Prevent overlapping scheduling by taking "duration" into consideration
+
+- Don't pass invalid species input (non animal, wrong data type) or the animal is not widely known to generate common pet care tasks
+
 
 ## Reflection:
+Claude is a great collaborative coding tool where you can share plans, quickly implement them into working features, and test. However, it's always best to critically think through Claude outputs to make significant decisions or catch needed improvements.  
