@@ -35,9 +35,8 @@ pip install -r requirements.txt
 ```
 
 ### Running
-- Install dependencies: pip install -r requirements.txt
-- Open the terminal and write streamlit run app.py
-- Run tests: pytest test_suggester.py -v
+- Open the terminal and write ``streamlit run app.py``
+- Run tests: ``pytest test_suggester.py -v``
 
 ## Sample Interactions:
 
