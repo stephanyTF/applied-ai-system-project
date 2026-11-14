@@ -2,7 +2,7 @@
 
 
 ## Summary
-The PawPal+ is a smart, AI-enhanced pet task scheduler that can automatically suggest relevant tasks for pets to make it faster and easier for pet owners in planning their pet care schedule. 
+The PawPal+ is a tested AI-enhanced pet task scheduler that can automatically suggest relevant tasks for pets to make it faster and easier for pet owners in planning their pet care schedule. 
 
 
 ## Architecture Overview: @architecture.mmd
@@ -15,7 +15,7 @@ The PawPal+ is a smart, AI-enhanced pet task scheduler that can automatically su
 
 
 3. Validation 
-    Before displaying to the user, each of the tasks are checked to ensure their title cards are relevant and altogether meets the required amount. 
+    Before displaying to the user, each of the tasks are checked to ensure their title cards are relevant and altogether meets the required amount. (see suggester.py::validate)
     
 4. Output
 
@@ -29,7 +29,7 @@ The PawPal+ is a smart, AI-enhanced pet task scheduler that can automatically su
 ### Setup
 
 ```bash
-python -m venv .venv
+py -3.13 -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
