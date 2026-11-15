@@ -3,6 +3,8 @@ import os
 from dataclasses import dataclass
 from datetime import time as Time
 
+import logging
+
 MODEL = "gemini-2.5-flash"
 MAX_SUGGESTIONS = 3
 MIN_SUGGESTIONS = 2
@@ -149,7 +151,7 @@ def call_gemini(name, species):
         config=types.GenerateContentConfig(
             system_instruction=SYSTEM_PROMPT,
             response_mime_type="application/json",
-            http_options=types.HttpOptions(timeout=15000),
+            http_options=types.HttpOptions(api_version="v1beta", timeout=15000),
         ),
     )
     return json.loads(response.text)
@@ -167,12 +169,18 @@ def suggest_tasks(name, species, busy=(), llm=call_gemini):
     MIN_SUGGESTIONS valid items. `busy` is a list of (start_minutes, duration).
     """
     items, source = [], "fallback"
+
     try:
-        items = validate(llm(name, species), species)
+        raw = llm(name, species)
+        items = validate(raw, species)
         if len(items) >= MIN_SUGGESTIONS:
             source = "ai"
+        else:
+            logging.warning("Gemini returned %d valid items; raw=%r", len(items), raw)
     except Exception:
+        logging.exception("Gemini call failed")
         items = []
+
     if source == "fallback":
         items = fallback_items(name, species)
     return assign_times(items, busy), source

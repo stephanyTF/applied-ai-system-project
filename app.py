@@ -9,42 +9,40 @@ from datetime import date as Date
 
 st.set_page_config(page_title="PawPal+", page_icon="🐾", layout="centered")
 
+# Keep button labels (Accept / Edit / Drop) from being clipped in narrow columns.
+st.markdown(
+    """
+    <style>
+    div[data-testid="stColumn"] button {
+        padding-left: 0.4rem;
+        padding-right: 0.4rem;
+        white-space: nowrap;
+        width: 100%;
+        min-width: fit-content;
+    }
+    div[data-testid="stColumn"] button p {
+        overflow: visible;
+        text-overflow: clip;
+        white-space: nowrap;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 st.title("🐾 PawPal+")
 
 st.markdown(
     """
-Welcome to the PawPal+ starter app.
+Welcome to the PawPal+ w/ Automated Task Suggestion! This is a pet care planning assistant 
+that helps you schedule tasks for your pets based on time, priority, and preferences.
 
-This file is intentionally thin. It gives you a working Streamlit app so you can start quickly,
-but **it does not implement the project logic**. Your job is to design the system and build it.
-
-Use this app as your interactive demo once your backend classes/functions exist.
 """
 )
 
-with st.expander("Scenario", expanded=True):
-    st.markdown(
-        """
-**PawPal+** is a pet care planning assistant. It helps a pet owner plan care tasks
-for their pet(s) based on constraints like time, priority, and preferences.
 
-You will design and implement the scheduling logic and connect it to this Streamlit UI.
-"""
-    )
 
-with st.expander("What you need to build", expanded=True):
-    st.markdown(
-        """
 
-At minimum, your system should:
-
-[MermaidChart: 3c5df3d2-97cb-455e-8e47-a43e262279b1]
-- Represent pet care tasks (what needs to happen, how long it takes, priority)
-- Represent the pet and the owner (basic info and preferences)
-- Build a plan/schedule for a day that chooses and orders tasks based on constraints
-- Explain the plan (why each task was chosen and when it happens)
-"""
-    )
 
 st.divider()
 
